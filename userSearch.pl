@@ -31,11 +31,11 @@ foreach(@ARGV) {
         foreach $attr ( sort $entr->attributes ) {
             # skip binary we can't handle
             next if ( $attr =~ /;binary$/ );
-            $user = $entr->get_value($attr);
+            $fullname = $entr->get_value($attr);
         }
     }
 
-    $user =~ s/(\w+)/\u\L$1/g;
+    $fullname =~ s/(\w+)/\u\L$1/g;
 
     $email = $username.'@rit.edu';
 
@@ -45,7 +45,7 @@ foreach(@ARGV) {
 
     $uid = `drush \@prod uinf $uid --fields=uid --format=csv`;
 
-    `echo '{"field_fullname":{"und":[{"value":"$user","format":null,"safe_value":"$user"}]}}' | drush --pipe \@prod entity-update user $uid --fields=field_fullname --json-input=-`;
+    `echo '{"field_fullname":{"und":[{"value":"$fullname","format":null,"safe_value":"$fullname"}]}}' | drush --pipe \@prod entity-update user $uid --fields=field_fullname --json-input=-`;
 
     `drush \@prod user-add-role "Writer" $username`;
 
@@ -54,8 +54,24 @@ foreach(@ARGV) {
 
     $to = $email;
     $from = 'rptadmin@rit.edu';
-    $subject = 'Reporter Magazine Web Account';
-    $message = "Hi $user! Please navigate to $password_link to login to the website for the first time.";
+    $subject = 'Reporter Magazine Account Creation';
+    $message = "
+                <html>
+                    <head>
+                        <style>
+                             body { font-family:Arial; font-size: 14px; }
+                             #header { font-weight: bold; font-size: 20px; color: white; background-color: #188F6C; text-align: center; padding: 5px;}
+                        </style>
+                    </head>
+                    <body>
+                        <h2>Reporter Magazine</h2>
+                        <p>Hi $fullname,</p>
+                        <p>Your Reporter Online account is ready for your first login. Click the link below to log in for the first time. Once you're in, you will be asked to set your password.</p>
+                        <p><a href=\"$password_link\">$password_link</a></p>
+                        <p>Happy Writing!</p>
+                        <p>Reporter Magazine</p>
+                    </body>
+                </html>";
 
     $msg = MIME::Lite->new(
             From     => $from,
