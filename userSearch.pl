@@ -19,6 +19,11 @@ foreach(@ARGV) {
 
     my @entries = $result->entries;
 
+    if(scalar(@entries) != 1) {
+        print "$username not found.\n";
+        break;
+    }
+
     my $entr;
     my $user;
     foreach $entr ( @entries ) {
