@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-#!~/perl5
 use Net::LDAP;
 use Net::LDAP::Entry;
 use MIME::Lite;
@@ -25,7 +24,7 @@ foreach(@ARGV) {
     }
 
     my $entr;
-    my $user;
+    my $fullname;
     foreach $entr ( @entries ) {
         my $attr;
         foreach $attr ( sort $entr->attributes ) {
@@ -37,19 +36,19 @@ foreach(@ARGV) {
 
     $fullname =~ s/(\w+)/\u\L$1/g;
 
-    $email = $username.'@rit.edu';
+    my $email = $username.'@rit.edu';
 
-    $password =  mkpasswd();
+    my $password =  mkpasswd();
 
     `drush \@prod user-create $username --mail="$email" --password="$password"`;
 
-    $uid = `drush \@prod uinf $uid --fields=uid --format=csv`;
+    my $uid = `drush \@prod uinf $uid --fields=uid --format=csv`;
 
-    `echo '{"field_fullname":{"und":[{"value":"$fullname","format":null,"safe_value":"$fullname"}]}}' | drush --pipe \@prod entity-update user $uid --fields=field_fullname --json-input=-`;
+    `echo '{"field_fullname":{"und":[{"value":"$fullname","format":null,"safe_value":"$fullname"}]}}' | drush --pipe \@prod entity-update user $username --fields=field_fullname --json-input=-`;
 
     `drush \@prod user-add-role "Writer" $username`;
 
-    $password_link = `drush \@prod uli $username`;
+    my $password_link = `drush \@prod uli $username`;
 
 
     $to = $email;
