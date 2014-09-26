@@ -50,7 +50,7 @@ foreach(@ARGV) {
 
     `drush \@prod user-add-role "Writer" $username`;
 
-    echo $password;
+    print $password;
 
     $to = $email;
     $from = 'rptadmin@rit.edu';
