@@ -48,6 +48,7 @@ foreach(@ARGV) {
             From     => $from,
             To       => $to,
             Subject  => $subject,
+            Type     => 'text/html',
             Data     => $message,
          );
                  
