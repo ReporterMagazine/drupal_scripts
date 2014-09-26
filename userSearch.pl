@@ -42,7 +42,7 @@ foreach(@ARGV) {
 
     `drush \@prod user-create $username --mail="$email" --password="$password"`;
 
-    my $uid = `drush \@prod uinf $uid --fields=uid --format=csv`;
+    my $uid = `drush \@prod uinf $username --fields=uid --format=csv`;
 
     `echo '{"field_fullname":{"und":[{"value":"$fullname","format":null,"safe_value":"$fullname"}]}}' | drush --pipe \@prod entity-update user $username --fields=field_fullname --json-input=-`;
 
