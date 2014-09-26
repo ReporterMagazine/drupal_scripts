@@ -44,6 +44,8 @@ foreach(@ARGV) {
 
     my $uid = `drush \@prod uinf $username --fields=uid --format=csv`;
 
+    chomp($uid);
+
     `echo '{"field_fullname":{"und":[{"value":"$fullname","format":null,"safe_value":"$fullname"}]}}' | drush --pipe \@prod entity-update user $uid --fields=field_fullname --json-input=-`;
 
     `drush \@prod user-add-role "Writer" $username`;
