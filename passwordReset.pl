@@ -19,8 +19,6 @@ foreach(@ARGV) {
 
     `echo '{"force_password_change":"1"}' | drush --pipe \@prod entity-update user $uid --fields=force_password_change --json-input=-`;
 
-    print $password;
-
     $to = $email;
     $from = 'rptadmin@rit.edu';
     $subject = 'Reporter Magazine Account Creation';
@@ -35,11 +33,11 @@ foreach(@ARGV) {
                     <body>
                         <h2>Reporter Magazine</h2>
                         <p>Hi $fullname,</p>
-                        <p>Your Reporter Magazine account has been created. Please go to <a href=\"reporter.rit.edu\">reporter.rit.edu</a> and click the Login link at the bottom of the page. Use the following credentials to login:
+                        <p>Your Reporter Magazine account has been reset. Please go to <a href=\"reporter.rit.edu\">reporter.rit.edu</a> and click the Login link at the bottom of the page. Use the following credentials to login:
                         <p>Username: $username</p>
                         </p>Password: $password</p>
-                        <p>Please note that you will have to change your password after your first login.</p>
-                        <p>Happy Writing!</p>
+                        <p>Please note that you will have to change your password after login.</p>
+                        <p>Keep track of you password!</p>
                         <p>Reporter Magazine</p>
                     </body>
                 </html>";
