@@ -50,8 +50,6 @@ foreach(@ARGV) {
 
     `drush \@prod user-add-role "Writer" $username`;
 
-    print $password;
-
     $to = $email;
     $from = 'rptadmin@rit.edu';
     $subject = 'Reporter Magazine Account Creation';
