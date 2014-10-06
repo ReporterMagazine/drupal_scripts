@@ -46,7 +46,7 @@ foreach(@ARGV) {
 
     chomp($uid);
 
-    `echo '{"field_fullname":{"und":[{"value":"$fullname","format":null,"safe_value":"$fullname"}]},"force_password_change":"1"}' | drush --pipe \@prod entity-update user $uid --fields=field_fullname --json-input=-`;
+    `echo '{"field_fullname":{"und":[{"value":"$fullname","format":null,"safe_value":"$fullname"}]}}' | drush --pipe \@prod entity-update user $uid --fields=field_fullname --json-input=-`;
 
     `drush \@prod user-add-role "Writer" $username`;
 
@@ -66,8 +66,7 @@ foreach(@ARGV) {
                         <p>Hi $fullname,</p>
                         <p>Your Reporter Magazine account has been created. Please go to <a href=\"reporter.rit.edu\">reporter.rit.edu</a> and click the Login link at the bottom of the page. Use the following credentials to login:
                         <p>Username: $username</p>
-                        </p>Password: $password</p>
-                        <p>Please note that you will have to change your password after your first login.</p>
+						<p>Password: RIT account password</p>
                         <p>Happy Writing!</p>
                         <p>Reporter Magazine</p>
                     </body>
